@@ -48,6 +48,71 @@ http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartpho
 
 - Features are normalized and bounded within [-1,1].
 
+## Variables
+
+#######################
+### 0. Reading section
+#######################
+
+
+- features - from the 561 names of the variables from features.txt (561 rows, 2 columns)
+
+- x_test - from x_test.txt data (25 Mb, 2947 lines, 561 columns) 
+
+- x_train - from x_train.txt data (64 Mb, 7352 lines, 561 columns)
+
+- activity_labels - labels names from file activity_labels.txt (1 = walking, 2 = walking_upstairs, etc)
+
+- y_test - from y_test.txt data (information about activity) 2947 lines
+
+- y_train - from y_train.txt data (information about activity) 7352 lines
+
+- subject_test - from subject_test.txt data (information about subject) 2947 lines
+
+- subject_train - from subject_train.txt data (information about subject) 7352 lines
+
+########################################################################
+### 1. Merges the training and the test sets to create one data set.
+########################################################################
+
+- test - Bind the test data: y_test + subject_test + x_test (2947 lines); adding columns -> cbind; activity_id + subject_id + 561 columns = 563 columns
+
+- train - Bind the train data: y_train + subject_train + x_train (7352 lines); adding columns -> cbind; activity_id + subject_id + 561 columns = 563 columns
+
+- fulldata -  Bind the test and train data (563 columns); adding lines -> rbind; 2947 + 7352 = 10299 lines
+
+################################################################################################
+### 2. Extracts only the measurements on the mean and standard deviation for eachmeasurement.
+################################################################################################
+
+- current_column_names  - list of column names from fulldata
+
+- filter - ids that have "mean()" or "std()": 66 ids; from current_column_names
+
+- extracted_data -  filtered data: activity_id, subject_id, 66 columsn (mean/std): 10299 lines, 68 columns
+
+###############################################################################
+### 3. Uses descriptive activity names to name the activities in the data set
+###############################################################################
+
+- localTmp - temporary variable to help replace from ids to label
+
+###############################################################################
+### 4. Appropriately labels the data set with descriptive variable names.
+###############################################################################
+
+- no new variable in this section
+
+#################################################################################################
+### 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+#################################################################################################
+
+  
+- second - temporary variable to help build a new data set. Main columns: activity and subject_id. Third column = name of variable being measured (for example tBodyAcc-mean()-X). Fourth column = value. Quantity of lines: 10299 lines from extracted_data * 66 columns (or variables) = 679734 values (lines)
+
+- result - objective data set;  quantity of lines: 30 subjects * 6 activity = 180 values (lines). Columns: subject_id; activity; 66 variables = 68 columns
+
+
 ## Result
 
   The tidy data set "result" should have 68 columns and 180 lines (30 subjects  x 6 activities).
